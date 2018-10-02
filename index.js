@@ -1,0 +1,53 @@
+const path = require('path')
+
+const express = require('express')
+
+const expressEdge = require('express-edge')
+
+const mongoose = require('mongoose')
+
+const app = new express()
+
+mongoose.connect('mongodb://localhost/node-js-blog', { useNewUrlParser: true }).then(() => {
+    console.log("Connected to Database");
+}).catch((err) => {
+    console.log("Not Connected to Database ERROR! ", err);
+});
+
+app.use(express.static('public'))
+
+app.use(expressEdge)
+
+app.set('views',`${__dirname}/views`)
+
+app.get('/', (req,res) => {
+    console.log(path.resolve(__dirname))
+    // res.sendFile(path.resolve(__dirname,'pages/index.html'))
+
+    res.render('index')
+})
+
+app.get('/about', (req,res) => {
+
+    // res.sendFile(path.resolve(__dirname,('pages/about.html')))
+
+    res.render('about')
+})
+
+app.get('/post', (req,res) => {
+
+    // res.sendFile(path.resolve(__dirname,('pages/post.html')))
+
+    res.render('post')
+})
+
+app.get('/contact', (req,res) => {
+
+    // res.sendFile(path.resolve(__dirname,('pages/contact.html')))
+
+    res.render('contact')
+})
+
+app.listen(4000,()=>{
+    console.log('App listening on port 4000')
+})
